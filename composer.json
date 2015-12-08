@@ -2,6 +2,7 @@
     "name": "lszanto/hyde",
     "description": "Static site generator",
     "require": {
+        "twig/twig": "~1.0"
     },
     "authors": [
         {
