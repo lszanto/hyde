@@ -3,6 +3,9 @@
 // composer
 require __DIR__ . '/vendor/autoload.php';
 
+// grab yaml component
+use Symfony\Component\Yaml\Yaml;
+
 // grab site pages
 $site_pages = glob(__DIR__ . '/site/*.html');
 
@@ -20,20 +23,34 @@ $parts = glob(__DIR__ . '/parts/*', GLOB_ONLYDIR);
 
 // loop through any parts
 foreach($parts as $part) {
-    // get varible to assign as
-    $assign_as = basename($part);
+    // set folder name
+    $folder = basename($part);
 
-    // create empty array
-    $variable_helper[$assign_as] = array();
+    // create empty array with name of directory
+    $variable_helper[$folder] = array();
 
     // grab the files
-    $part_files = glob($part . '/*.ini');
+    $part_files = glob($part . '/*.yaml');
+
+    // set loop start and count
+    $i = 0;
+    $c = count($part_files);
 
     // process each file
-    foreach($part_files as $part_file) {
-        // parse into existence
-        $variable_helper[$assign_as][basename($part_file, '.ini')] = parse_ini_file($part_file, false, INI_SCANNER_TYPED);
-    }
+    do {
+        // get the file
+        $part_file = $part_files[$i];
+
+        // try to parse the file
+        try {
+            $variable_helper[$folder][basename($part_file, '.yaml')] = Yaml::parse(file_get_contents($part_file), true);
+        } catch(Exception $e) {
+            die('Uh oh there has been an error trying to parse some of your parts, message: ' . $e->getMessage());
+        }
+
+        // next file
+        $i++;
+    } while($i < $c);
 }
 
 // write file

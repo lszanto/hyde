@@ -2,7 +2,8 @@
     "name": "lszanto/hyde",
     "description": "Static site generator",
     "require": {
-        "twig/twig": "~1.0"
+        "twig/twig": "~1.0",
+        "symfony/yaml": "^3.0"
     },
     "authors": [
         {
