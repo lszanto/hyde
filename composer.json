@@ -1,0 +1,13 @@
+{
+    "name": "lszanto/hyde",
+    "description": "Static site generator",
+    "require": {
+        "symfony/yaml": "^3.0"
+    },
+    "authors": [
+        {
+            "name": "Luke",
+            "email": "luke@cardcorp.net.au"
+        }
+    ]
+}
