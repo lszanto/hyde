@@ -105,15 +105,15 @@ foreach($parts as $part) {
                 // set fields
                 $field_a = $a[$config['sort_by']];
                 $field_b = $b[$config['sort_by']];
-                info("Comparing {$field_a} to {$field_b}");
 
                 // check if we're comparing dates
-                if(stripos($config['sort_by'], 'date') !== false) return strtotime($field_a) < strtotime($field_b);
+                if(stripos($config['sort_by'], 'date') !== false) return ($config['sort_order'] == 'desc') ? (strtotime($field_b) - strtotime($field_a)) : (strtotime($field_a) - strtotime($field_b));
+                else return ($config['sort_order'] == 'desc') ? ($field_b - $field_a) : ($field_a - $field_b);
             });
         }
 
         info(" -- Applying config to {$folder}");
-        print_r($variable_helper[$folder]);
+        //print_r($variable_helper[$folder]);
     }
 }
 
@@ -131,6 +131,13 @@ $twig = new Twig_Environment($loader);
 $site_pages = glob(__DIR__ . '/site/*.html');
 
 info("Found " . count($site_pages) . " page(s) in " . __DIR__ . "/site");
+
+// first create links
+foreach($site_pages as $site_page) {
+    $variable_helper['links'][basename($site_page, '.html')]['url'] = basename($site_page);
+    $variable_helper['links'][basename($site_page, '.html')]['title'] = basename($site_page, '.html');
+    $variable_helper['link'][basename($site_page, '.html')] = basename($site_page);
+}
 
 // loop through pages
 foreach($site_pages as $site_page) {
