@@ -1,13 +1,11 @@
-<html>
-<head>
-    <title>{{ site.title }} - About</title>
-</head>
+{% extends "base.twig" %}
 
-<body>
+{% block title %}{{ site.title }} - About{% endblock %}
 
+{% block content %}
 <h1>About me</h1>
 
 These are all the things about me hey ;)
 
-</body>
-</html>
+<a href="{{ link.index }}" >Go back home</a>
+{% endblock %}
